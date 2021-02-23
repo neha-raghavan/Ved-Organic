@@ -1,0 +1,114 @@
+﻿@page "/Registration"
+@using System.Text.Json
+@using Ved_Organic.Data
+@inject IJSRuntime JSRuntime 
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+<h5 style="color:blue;  text-align:center">Create New Account</h5>
+   
+    <div style="display:grid;align-items:center;justify-items:center;">
+        <EditForm  style="box-shadow:0px 0px 2px black; padding:2em; width:50vw;" Model="@user" OnValidSubmit="@Insert">
+             <DataAnnotationsValidator />
+            <div class="form-group">
+                <InputText @bind-Value="user.Name"  class="form-control"  placeholder="Name"/>
+                <ValidationMessage For="@(() => user.Name)" />
+            </div>
+            <div class="form-group">
+                
+                <InputText @bind-Value="user.Mobile" class="form-control"   placeholder="Mobile" />
+                <ValidationMessage For="@(() => user.Mobile)" />
+            </div>
+            <div class="form-group">
+                
+                <InputText @bind-Value="user.Email" type="email" class="form-control" placeholder="Email" />
+                <ValidationMessage For="@(() => user.Email)" />
+            </div>
+             <div class="form-group">
+             <div class="row">
+                 <div class="col"><InputText @bind-Value="user.Password" class="form-control" type="text" name="" placeholder="Password"/>
+                 <ValidationMessage For="@(() => user.Password)" />
+                 </div>
+                 <div class="col">
+       <InputText @bind-Value="user.Password" class="form-control col" type="text"  name="" placeholder="Confirm Password"/> 
+        <ValidationMessage For="@(() => user.Password)" />
+   </div>
+   </div>         
+   </div>
+    <div class="form-group">
+        <div class="row">
+                 <div class="col">
+                <label>Address</label>
+                </div>
+                <div class="col">
+            
+                
+  <label for="home">Home</label>
+  <!--<input checked="@user.Business" type="radio" id="Business" name="types" value="1"/>-->
+  <input type="radio" name="types" value="True" id="home" checked="@(user.Business.Equals(0))" @onchange="OnChange"/>
+  <label for="business">Business</label>
+  <input type="radio" name="types" value="False" id="business" checked="@(user.Business.Equals(1))" @onchange="OnChange"/>
+  </div>
+  </div>
+                </div>
+                <div class="form-group">
+                <InputText @bind-Value="user.Street"  class="form-control" placeholder="Street" />
+                <ValidationMessage For="@(() => user.Street)" />
+            </div>
+   <div class="form-group">
+                
+                <InputText @bind-Value="user.Building"  class="form-control" placeholder="Building" />
+                <ValidationMessage For="@(() => user.Building)" />
+            </div>
+     <div class="form-group">
+                
+                <InputText @bind-Value="user.Area"  class="form-control" placeholder="Area" />
+                <ValidationMessage For="@(() => user.Area)" />
+            </div>
+        <div class="form-group">
+             <div class="row">
+                 <div class="col"><InputText @bind-Value="user.City" class="form-control" type="text" name="" placeholder="City"/>
+                 <ValidationMessage For="@(() => user.City)" />
+                 </div>
+                 <div class="col">
+       <InputText @bind-Value="user.Country" class="form-control col" type="text"  name="" placeholder="Country"/> 
+        <ValidationMessage For="@(() => user.Country)" />
+   </div>
+   </div>         
+   </div>
+             <div class="form-group">
+             <div class="row">
+                 <div class="col"><InputText @bind-Value="user.POBOX" class="form-control" type="text" name="" placeholder="PCBOX"/>
+                 <ValidationMessage For="@(() => user.POBOX)" />
+                 </div>
+                 <div class="col">
+       <InputText @bind-Value="user.LandLine" class="form-control col" type="text"  name="" placeholder="LandLine"/> 
+        <ValidationMessage For="@(() => user.LandLine)" />
+   </div>
+   </div>         
+   </div>     
+              <div class="w3-bar">
+                <button type="submit" class="btn btn-primary" @onclick="@Insert">Register</button>
+                 <button type="button" class="btn btn-secondary" href="/">Cancel</button>
+  </div>   
+        </EditForm>
+   
+    </div>
+
+
+<div>
+    <span>
+        
+    </span>
+</div>
+@code {
+    
+        UserInfo user = new UserInfo();
+        protected async Task Insert() {
+            await UserService.Register(user);
+        }
+        private void OnChange(ChangeEventArgs args) {
+            user.Business = bool.Parse(args.Value.ToString());
+        }
+    
+
+}

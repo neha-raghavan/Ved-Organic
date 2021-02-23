@@ -28,8 +28,13 @@ namespace Ved_Organic
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddScoped<IUserService,UserService>();
             services.AddSingleton<WeatherForecastService>();
+            var SqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("DefaultConnection"));
+            services.AddSingleton(SqlConnectionConfiguration);
+            services.AddServerSideBlazor(o => o.DetailedErrors = true);
         }
+
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
