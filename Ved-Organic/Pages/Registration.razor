@@ -2,12 +2,12 @@
 @using System.Text.Json
 @using Ved_Organic.Data
 @inject IJSRuntime JSRuntime 
-@inject IUserService UserService
+@inject UserServiceDapper UserService
 @inject NavigationManager NavigationManager
 <h5 style="color:blue;  text-align:center">Create New Account</h5>
    
     <div style="display:grid;align-items:center;justify-items:center;">
-        <EditForm  style="box-shadow:0px 0px 2px black; padding:2em; width:50vw;" Model="@user" >
+        <EditForm  style="box-shadow:0px 0px 2px black; padding:2em; width:50vw;" OnValidSubmit="@Insert" Model="@user" >
              <DataAnnotationsValidator />
             <div class="form-group">
                 <InputText @bind-Value="user.Name"  class="form-control"  placeholder="Name"/>
@@ -87,7 +87,7 @@
    </div>         
    </div>     
               <div class="w3-bar">
-                <button type="submit" class="btn btn-primary" @onclick="@Insert">Register</button>
+                <button type="submit" class="btn btn-primary" >Register</button>
                      <input type="button" class="btn btn-secondary" @onclick="@Cancel" value="Cancel" /> 
   </div>   
         </EditForm>
@@ -97,16 +97,16 @@
 
 
 @code {
-    
-        UserInfo user = new UserInfo();
-        protected async Task Insert() {
-            await UserService.Register(user);
+    UserInfo user = new UserInfo();
+        protected void Insert() {
+        UserService.Register(user);
+        NavigationManager.NavigateTo("Login");
         }
         private void OnChange(ChangeEventArgs args) {
             user.Business = bool.Parse(args.Value.ToString());
         }
     void Cancel()  
     {  
-        NavigationManager.NavigateTo("Login");  
+        NavigationManager.NavigateTo("Login");
     }  
 }
