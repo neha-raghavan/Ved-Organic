@@ -42,5 +42,38 @@ VALUES        ( @Name,@Mobile,@Email,@Password,@Street,@Building, @Area, @City,@
             }
             return true;
         }
-    }
+        public async Task<int> LoginDetails(string id,String Password)
+        {
+            UserInfo user = new UserInfo();
+            using (var conn = new SqlConnection(_configuration.Value))
+            {
+                const string query = @"select * from UserRegistration where Email=@Id and Password=@Password";
+
+                conn.Open();
+                try
+                {
+                    user = await conn.QueryFirstOrDefaultAsync<UserInfo>(query, new { id,Password }, commandType: CommandType.Text);
+
+                }
+                catch (Exception ex)
+                {
+                    throw ex;
+                }
+                finally
+                {
+                    conn.Close();
+                }
+               
+            }
+            if (user == null)
+            {
+                return 0;
+            }
+            else
+            {
+                return 1;
+            }
+        }
+    
+}
 }

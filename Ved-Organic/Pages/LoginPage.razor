@@ -1,0 +1,45 @@
+﻿@page "/Login"
+@using System.Text.Json
+@using Ved_Organic.Data
+@inject IJSRuntime JSRuntime 
+@inject IUserService UserService
+@inject NavigationManager NavigationManager
+<h5 style="color:blue;  text-align:center">Login</h5
+<div style="display:grid;align-items:center;justify-items:center;">
+        <EditForm  style="box-shadow:0px 0px 2px black; padding:2em; width:50vw;" Model="@user">
+             <DataAnnotationsValidator />
+              <div class="form-group">
+                
+                <InputText @bind-Value="user.Email" type="email" class="form-control" placeholder="Email" />
+                <ValidationMessage For="@(() => user.Email)" />
+            </div>
+             <div class="form-group">
+             <div class="row">
+                 <div class="col"><InputText @bind-Value="user.Password" class="form-control" type="text" name="" placeholder="Password"/>
+                 <ValidationMessage For="@(() => user.Password)" />
+                 </div>
+                 </div>
+                 </div>
+                        <div class="w3-bar">
+                <button type="submit" class="btn btn-primary" @onclick="@Login">Login</button>
+                 <button type="button" class="btn btn-secondary" href="/">Cancel</button>
+  </div>   
+                 </EditForm>
+             </div> 
+@code {
+    UserInfo user = new UserInfo();
+
+    protected async Task Login()
+    {
+        String Id = user.Email;
+        String Pass = user.Password;
+        int count = await UserService.LoginDetails(Id, Pass);
+        if (count > 0)
+        {
+            NavigationManager.NavigateTo(" ");
+        }
+
+
+
+    }
+}
