@@ -2,39 +2,64 @@
 @using System.Text.Json
 @using Ved_Organic.Data
 @inject IJSRuntime JSRuntime 
+@inject UserServiceDapper UserService
 @inject NavigationManager NavigationManager
 <h5 style="color:blue;  text-align:center">Login</h5
 <div style="display:grid;align-items:center;justify-items:center;">
-        <EditForm  style="box-shadow:0px 0px 2px black; padding:2em; width:50vw;" Model="@user">
+<div class="wrapper fadeInDown">
+  <div id="formContent">
+   
+
+   
+<EditForm  style="box-shadow:0px 0px 2px black; padding:2em; width:50vw;" OnValidSubmit="@Login"  Model="@log">
              <DataAnnotationsValidator />
               <div class="form-group">
                 
-                <InputText @bind-Value="user.Email" type="email" class="form-control" placeholder="Email" />
-                <ValidationMessage For="@(() => user.Email)" />
+                <InputText @bind-Value="log.Email" type="email" class="form-control" placeholder="Email" />
+                <ValidationMessage For="@(() => log.Email)" />
             </div>
              <div class="form-group">
              <div class="row">
-                 <div class="col"><InputText @bind-Value="user.Password" class="form-control" type="text" name="" placeholder="Password"/>
-                 <ValidationMessage For="@(() => user.Password)" />
+                 <div class="col"><InputText @bind-Value="log.Password" class="form-control" type="text" name="" placeholder="Password"/>
+                 <ValidationMessage For="@(() => log.Password)" />
                  </div>
                  </div>
                  </div>
                         <div class="w3-bar">
-                <button type="submit" class="btn btn-primary" @onclick="@Login">Login</button>
+                           
+                <button type="submit" class="btn btn-primary"  >Login</button>
                  <button type="button" class="btn btn-secondary" href="/">Cancel</button>
   </div>   
+
                  </EditForm>
+                 <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+    </div>
              </div> 
+    
+
+
+ 
+
+
+  </div>
+</div>
 @code {
     UserInfo user = new UserInfo();
+    LoginInfo log = new LoginInfo();
 
-    protected async Task Login()
+    protected void  Login()
     {
-        String Id = user.Email;
-        String Pass = user.Password;
+        String Id = log.Email;
+        String Pass = log.Password;
+       user=  UserService.LoginDetails(Id,Pass);
         
-       
-
+       if(user==null){
+              
+       }
+       else{
+            NavigationManager.NavigateTo("/");
+        }
 
     }
 }

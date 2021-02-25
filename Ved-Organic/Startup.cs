@@ -30,8 +30,7 @@ namespace Ved_Organic
             services.AddServerSideBlazor();
           
             services.AddScoped<UserServiceDapper>();
-            services.AddSingleton<WeatherForecastService>();
-           
+          
            
             services.AddServerSideBlazor(o => o.DetailedErrors = true);
         }
