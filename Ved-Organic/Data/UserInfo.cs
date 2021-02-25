@@ -13,11 +13,15 @@ namespace Ved_Organic.Data
         [Required]
         public string Name { get; set; }
         [Required]
+        [Phone]
         public string Mobile { get; set; }
         [Required]
         public string Email { get; set; }
-        [Required]
+        [Required(ErrorMessage = "password is required.")]
+        [MinLength(8, ErrorMessage = "password must be atleast 8 characters")]
         public string Password { get; set; }
+        [Compare(nameof(Password), ErrorMessage = "password dosent match")]
+        public string ConfirmPassword { get; set; }
         [Required]
         public string Street { get; set; }
         [Required]
@@ -31,6 +35,7 @@ namespace Ved_Organic.Data
         [Required]
         public string POBOX { get; set; }
         [Required]
+        [Phone]
         public string LandLine { get; set; }
         [Required]
         public bool Business { get; set; } = true;

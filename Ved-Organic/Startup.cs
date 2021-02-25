@@ -28,10 +28,10 @@ namespace Ved_Organic
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-            services.AddScoped<IUserService,UserService>();
-            services.AddSingleton<WeatherForecastService>();
-            var SqlConnectionConfiguration = new SqlConnectionConfiguration(Configuration.GetConnectionString("DefaultConnection"));
-            services.AddSingleton(SqlConnectionConfiguration);
+          
+            services.AddScoped<UserServiceDapper>();
+          
+           
             services.AddServerSideBlazor(o => o.DetailedErrors = true);
         }
 
