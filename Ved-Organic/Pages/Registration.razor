@@ -88,7 +88,7 @@
    </div>     
               <div class="w3-bar">
                 <button type="submit" class="btn btn-primary" >Register</button>
-                     <input type="button" class="btn btn-secondary" @onclick="@Cancel" value="Cancel" /> 
+                      
   </div>   
         </EditForm>
    
@@ -105,8 +105,5 @@
         private void OnChange(ChangeEventArgs args) {
             user.Business = bool.Parse(args.Value.ToString());
         }
-    void Cancel()  
-    {  
-        NavigationManager.NavigateTo("Login");
-    }  
+   
 }

@@ -1,17 +1,18 @@
-﻿@page "/Login"
+﻿@page "/"
 @using System.Text.Json
 @using Ved_Organic.Data
 @inject IJSRuntime JSRuntime 
 @inject UserServiceDapper UserService
-@inject NavigationManager NavigationManager
-<h5 style="color:blue;  text-align:center">Login</h5
+@inject NavigationManager NavigationManager 
+@inject Blazored.SessionStorage.ISessionStorageService session
+<h2 class="text-primary" style="text-align:center">Login</h2>
 <div style="display:grid;align-items:center;justify-items:center;">
 <div class="wrapper fadeInDown">
   <div id="formContent">
    
 
    
-<EditForm  style="box-shadow:0px 0px 2px black; padding:2em; width:50vw;" OnValidSubmit="@Login"  Model="@log">
+<EditForm  style="box-shadow:0px 0px 2px black; padding:2em; " OnValidSubmit="@Login"  Model="@log">
              <DataAnnotationsValidator />
               <div class="form-group">
                 
@@ -25,16 +26,16 @@
                  </div>
                  </div>
                  </div>
-                        <div class="w3-bar">
+                        <div style="display:grid; background:blue;">
                            
                 <button type="submit" class="btn btn-primary"  >Login</button>
-                 <button type="button" class="btn btn-secondary" href="/">Cancel</button>
   </div>   
-
-                 </EditForm>
-                 <div id="formFooter">
-      <a class="underlineHover" href="#">Forgot Password?</a>
+  <div id="formFooter">
+      <a class="underlineHover" href="#">Forgot Password</a>
+      <p>Don't have an account?</p><a class="underlineHover" href="/Registration">Register Here</a>
     </div>
+                 </EditForm>
+                 
              </div> 
     
 
@@ -58,8 +59,10 @@
               
        }
        else{
-            NavigationManager.NavigateTo("/");
+            session.SetItemAsync("SessionUser", user);
+            NavigationManager.NavigateTo("/Index");
         }
 
     }
+  
 }

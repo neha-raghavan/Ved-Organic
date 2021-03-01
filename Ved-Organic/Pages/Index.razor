@@ -1,6 +1,22 @@
-﻿@page "/"
+﻿@page "/Index"
+@using Ved_Organic.Data
+@using Microsoft.AspNetCore.Http
+@inject UserServiceDapper UserService
+@inject Blazored.SessionStorage.ISessionStorageService session
 
-<h1>Hello, world!</h1>
 
-Welcome to your new app.
-<a href="/Registration">Registration</a>
+    
+@if(user!=null){
+    <p>@user.Name</p>
+}
+
+@code{
+    public UserInfo user;
+    protected override async Task OnInitializedAsync()
+    {
+         user = await session.GetItemAsync<UserInfo>("SessionUser");
+        
+    }
+
+
+}

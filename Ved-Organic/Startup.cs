@@ -1,3 +1,4 @@
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Hosting;
@@ -30,6 +31,7 @@ namespace Ved_Organic
             services.AddServerSideBlazor();
           
             services.AddScoped<UserServiceDapper>();
+            services.AddBlazoredSessionStorage();
           
            
             services.AddServerSideBlazor(o => o.DetailedErrors = true);
@@ -55,8 +57,10 @@ namespace Ved_Organic
 
             app.UseRouting();
 
+           
             app.UseEndpoints(endpoints =>
             {
+             
                 endpoints.MapBlazorHub();
                 endpoints.MapFallbackToPage("/_Host");
             });
