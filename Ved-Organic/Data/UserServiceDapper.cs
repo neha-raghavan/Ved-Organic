@@ -29,19 +29,19 @@ namespace Ved_Organic.Data
             using (IDbConnection dbConnection = Connection)
             {
                 string sQuery = @"INSERT INTO UserRegistration
-                          (Name, Mobile, Email, Password, Street, Building, Area, City, Country, POBox, Landline, Business)
-VALUES(@Name, @Mobile, @Email, @Password, @Street, @Building, @Area, @City, @Country, @POBox, @Landline, @Business)";
+                          (Name, Mobile, Email, Password, Street, Building, Area, City, Country, POBox, Landline,UserType, Business)
+VALUES(@Name, @Mobile, @Email, @Password, @Street, @Building, @Area, @City, @Country, @POBox, @Landline,2, @Business)";
                 dbConnection.Open();
                 dbConnection.Execute(sQuery, user);
             }
         }
-        public UserInfo LoginDetails(string id, string pass)
+        public LoginResponse LoginDetails(string id, string pass)
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string squery = @"select * from UserRegistration where Email=@Id and Password=@Pass";
+                string squery = @"select ur.Name as UserName,ur.Id as UserId,urs.permissionsString as PermissionString from UserRegistration as ur inner join UserRoles as urs on urs.id=ur.UserType where Email=@Id and Password=@Pass ";
                 dbConnection.Open();
-                return dbConnection.Query<UserInfo>(squery, new { Id = id, Pass = pass }).FirstOrDefault();
+                return dbConnection.Query<LoginResponse>(squery, new { Id = id, Pass = pass }).FirstOrDefault();
 
             }
           

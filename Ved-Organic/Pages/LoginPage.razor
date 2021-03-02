@@ -9,7 +9,11 @@
 <div style="display:grid;align-items:center;justify-items:center;">
 <div class="wrapper fadeInDown">
   <div id="formContent">
-   
+ @if(@res==null){
+   <div class="alert alert-danger">
+  Invalid Credentials
+</div>
+ } 
 
    
 <EditForm  style="box-shadow:0px 0px 2px black; padding:2em; " OnValidSubmit="@Login"  Model="@log">
@@ -46,20 +50,19 @@
   </div>
 </div>
 @code {
-    UserInfo user = new UserInfo();
+  
     LoginInfo log = new LoginInfo();
-
+    LoginResponse res = new LoginResponse();
     protected void  Login()
     {
         String Id = log.Email;
         String Pass = log.Password;
-       user=  UserService.LoginDetails(Id,Pass);
+       res=  UserService.LoginDetails(Id,Pass);
         
-       if(user==null){
-              
-       }
-       else{
-            session.SetItemAsync("SessionUser", user);
+       if(res!=null)
+	   {     
+       
+            session.SetItemAsync("SessionUser", res);
             NavigationManager.NavigateTo("/Index");
         }
 

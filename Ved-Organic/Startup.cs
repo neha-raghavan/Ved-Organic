@@ -29,7 +29,6 @@ namespace Ved_Organic
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
-          
             services.AddScoped<UserServiceDapper>();
             services.AddBlazoredSessionStorage();
           

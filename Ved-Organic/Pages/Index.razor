@@ -4,19 +4,30 @@
 @inject UserServiceDapper UserService
 @inject Blazored.SessionStorage.ISessionStorageService session
 
-
-    
-@if(user!=null){
-    <p>@user.Name</p>
+<div>
+@if(@user!=null)
+{
+@if(@user.PermissionString=="All")
+{
+<p>Hello, Admin</p>
 }
+@if(user.PermissionString=="Limited"){
+    <p>Hello, @user.UserName</p>
+}
+}
+</div>
 
 @code{
-    public UserInfo user;
+    public LoginResponse user;
+ 
     protected override async Task OnInitializedAsync()
     {
-         user = await session.GetItemAsync<UserInfo>("SessionUser");
+         user = await session.GetItemAsync<LoginResponse>("SessionUser");
         
     }
 
+
+
+    
 
 }
