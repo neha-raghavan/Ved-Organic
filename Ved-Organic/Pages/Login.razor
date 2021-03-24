@@ -1,0 +1,50 @@
+﻿@page "/SampleLog"
+@using Ved_Organic.Data
+@using DevExpress.Blazor
+@inject IJSRuntime runtime
+@inject NavigationManager NavigationManager
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/my-styles.css" rel="stylesheet" id="bootstrap-css">
+<div class="card">
+    <h4 class="card-header">Login</h4>
+    <div class="card-body">
+        <EditForm Model="@model" OnValidSubmit="@ValidateUser">
+            <DataAnnotationsValidator />
+            <div class="form-group">
+                <label>Username</label>
+                <InputText @bind-Value="model.UserName" class="form-control" />
+                <ValidationMessage For="@(() => model.UserName)" />
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <InputText @bind-Value="model.Password" type="password" class="form-control" />
+                <ValidationMessage For="@(() => model.Password)" />
+            </div>
+            
+      <button type="submit" class="btn btn-primary"  >Login</button>
+      
+            <NavLink href="account/register" class="btn btn-link">Register</NavLink>
+            
+                  <div class="formFooter">
+      <a class="underlineHover" href="#">Forgot Password?</a>
+      </div>
+        </EditForm>
+        
+    </div>
+</div>
+
+
+@code {
+    public LoginResponse model = new LoginResponse();
+
+    protected override Task OnInitializedAsync()
+    {
+        return base.OnInitializedAsync();
+    }
+
+    public async Task<bool> ValidateUser()
+    {
+        NavigationManager.NavigateTo("/Index");
+        return await Task.FromResult(true);
+    }
+ 
+}

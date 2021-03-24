@@ -5,6 +5,8 @@
 @inject UserServiceDapper UserService
 @inject NavigationManager NavigationManager 
 @inject Blazored.SessionStorage.ISessionStorageService session
+@using Microsoft.AspNetCore.Components.Authorization;
+@inject AuthenticationStateProvider AuthState
 <h2 class="text-primary" style="text-align:center">Login</h2>
 <div style="display:grid;align-items:center;justify-items:center;">
 <div class="wrapper fadeInDown">
@@ -50,7 +52,6 @@
   </div>
 </div>
 @code {
-  
     LoginInfo log = new LoginInfo();
     LoginResponse res = new LoginResponse();
     protected void  Login()
@@ -63,6 +64,7 @@
 	   {     
        
             session.SetItemAsync("SessionUser", res);
+          
             NavigationManager.NavigateTo("/Index");
         }
 

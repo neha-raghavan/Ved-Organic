@@ -6,16 +6,26 @@ using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.Components.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Ved_Organic.Data;
+using Ved_Organic.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
+using System.Net.Mime;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Blazored.LocalStorage;
 
 namespace Ved_Organic
 {
     public class Startup
     {
+       
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,11 +39,15 @@ namespace Ved_Organic
         {
             services.AddRazorPages();
             services.AddServerSideBlazor();
+         
             services.AddScoped<UserServiceDapper>();
-            services.AddBlazoredSessionStorage();
-          
+            services.AddScoped<UserService>();
            
+            services.AddHttpContextAccessor();
+            services.AddHttpClient();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
             services.AddServerSideBlazor(o => o.DetailedErrors = true);
+  
         }
 
 
@@ -55,12 +69,15 @@ namespace Ved_Organic
             app.UseStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
+            app.UseAuthorization();
 
-           
+
             app.UseEndpoints(endpoints =>
             {
              
                 endpoints.MapBlazorHub();
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapFallbackToPage("/_Host");
             });
         }

@@ -1,8 +1,8 @@
-﻿@page "/Registration"
+﻿@page "/account"
 @using System.Text.Json
 @using Ved_Organic.Data
 @inject IJSRuntime JSRuntime 
-@inject UserServiceDapper UserService
+@inject UserService us
 @inject NavigationManager NavigationManager
 <h5 style="color:blue;  text-align:center">Create New Account</h5>
    
@@ -15,8 +15,8 @@
             </div>
             <div class="form-group">
                 
-                <InputText @bind-Value="user.Mobile" class="form-control"   placeholder="Mobile" />
-                <ValidationMessage For="@(() => user.Mobile)" />
+                <InputText @bind-Value="user.Phone1" class="form-control"   placeholder="Mobile" />
+                <ValidationMessage For="@(() => user.Phone1)" />
             </div>
             <div class="form-group">
                 
@@ -43,13 +43,13 @@
             
                 
   <label for="home">Home</label>
-  <!--<input checked="@user.Business" type="radio" id="Business" name="types" value="1"/>-->
-  <input type="radio" name="types" value="True" id="home" checked="@(user.Business.Equals(0))" @onchange="OnChange"/>
+  <input type="radio" name="types" value="True" id="home"  @onchange="OnChange"/>
   <label for="business">Business</label>
-  <input type="radio" name="types" value="False" id="business" checked="@(user.Business.Equals(1))" @onchange="OnChange"/>
+  <input type="radio" name="types" value="False" id="business"  @onchange="OnChange"/>
   </div>
   </div>
                 </div>
+   
                 <div class="form-group">
                 <InputText @bind-Value="user.Street"  class="form-control" placeholder="Street" />
                 <ValidationMessage For="@(() => user.Street)" />
@@ -61,8 +61,8 @@
             </div>
      <div class="form-group">
                 
-                <InputText @bind-Value="user.Area"  class="form-control" placeholder="Area" />
-                <ValidationMessage For="@(() => user.Area)" />
+                <InputText @bind-Value="user.Area1"  class="form-control" placeholder="Area" />
+                <ValidationMessage For="@(() => user.Area1)" />
             </div>
         <div class="form-group">
              <div class="row">
@@ -77,12 +77,12 @@
    </div>
              <div class="form-group">
              <div class="row">
-                 <div class="col"><InputText @bind-Value="user.POBOX" class="form-control" type="text" name="" placeholder="PCBOX"/>
-                 <ValidationMessage For="@(() => user.POBOX)" />
+                 <div class="col"><InputText @bind-Value="user.PBNo" class="form-control" type="text" name="" placeholder="PCBOX"/>
+                 <ValidationMessage For="@(() => user.PBNo)" />
                  </div>
                  <div class="col">
-       <InputText @bind-Value="user.LandLine" class="form-control col" type="text"  name="" placeholder="LandLine"/> 
-        <ValidationMessage For="@(() => user.LandLine)" />
+       <InputText @bind-Value="user.Phone2" class="form-control col" type="text"  name="" placeholder="LandLine"/> 
+        <ValidationMessage For="@(() => user.Phone2)" />
    </div>
    </div>         
    </div>     
@@ -97,13 +97,15 @@
 
 
 @code {
-    UserInfo user = new UserInfo();
-        protected void Insert() {
-        UserService.Register(user);
+    private PersonalDetail user = new PersonalDetail();
+   
+      protected void Insert() {
+        us.Register(user);
         NavigationManager.NavigateTo(" ");
         }
-        private void OnChange(ChangeEventArgs args) {
-            user.Business = bool.Parse(args.Value.ToString());
+           private void OnChange(ChangeEventArgs args) {
+            user.AddressType = args.Value.ToString();
         }
-   
-}
+     
+        
+ }
